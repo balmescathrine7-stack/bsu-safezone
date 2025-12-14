@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="BSU Logo">
+        <h1>Admin Dashboard</h1>
+    </div>
+    <div class="logout">
+        <a href="{{ url_for('views.admin_logout') }}">Logout</a>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- SEND NOTIFICATION -->
+    <section class="notifications">
+        <h2>Send Notification</h2>
+        <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <label>Message</label>
+            <textarea name="message" required></textarea>
+
+            <label>Send to</label>
+            <select name="target" required>
+                <option value="all">All Students</option>
+                {% for student in students %}
+                    <option value="{{ student.email }}">
+                        {{ student.full_name }} ({{ student.email }})
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Send</button>
+        </form>
+    </section>
+
+    <!-- SUMMARY -->
+    <section class="summary">
+        <p>Total Reports: <strong>{{ total }}</strong></p>
+        <p>Resolved: <strong>{{ resolved }}</strong></p>
+        <p>Pending: <strong>{{ pending }}</strong></p>
+    </section>
+
+    <!-- REPORT TABLE -->
+    <section class="reports">
+        <h2>Student Reports</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Student</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>File</th>
+                    <th>Status</th>
+                    <th>Admin Comment</th>
+                    <th>Student Replies</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            {% for report in reports %}
+                <tr>
+                    <td>{{ report.id }}</td>
+
+                    <!-- STUDENT NAME -->
+                    <td>
+                        {% if report.user %}
+                            {{ report.user.full_name }}
+                        {% else %}
+                            <em>Anonymous Student</em>
+                        {% endif %}
+                    </td>
+
+                    <td>{{ report.title }}</td>
+                    <td>{{ report.description }}</td>
+
+                    <!-- FILE -->
+                    <td>
+                        {% if report.file_path %}
+                            <a href="{{ url_for('static', filename=report.file_path) }}" target="_blank">
+                                View
+                            </a>
+                        {% else %}
+                            <small>No file</small>
+                        {% endif %}
+                    </td>
+
+                    <!-- STATUS -->
+                    <td>{{ report.status_rel.name if report.status_rel else "Pending" }}</td>
+
+                    <!-- ADMIN COMMENT -->
+                    <td>
+                        {% if report.admin_comment %}
+                            <strong>{{ report.admin_comment.admin.full_name }}:</strong>
+                            {{ report.admin_comment.comment }}
+                            <br>
+                            <small>{{ report.admin_comment.created_at.strftime("%Y-%m-%d %H:%M") }}</small>
+                        {% else %}
+                            <small>No comment</small>
+                        {% endif %}
+                    </td>
+
+                    <!-- STUDENT REPLIES -->
+                    <td>
+                        {% for reply in report.student_replies %}
+                            <strong>
+                                {% if reply.anonymous %}
+                                    Anonymous Student
+                                {% else %}
+                                    {{ reply.user.full_name }}
+                                {% endif %}
+                            </strong>
+                            : {{ reply.reply }}
+                            <br>
+                            <small>{{ reply.created_at.strftime("%Y-%m-%d %H:%M") }}</small>
+                            <hr>
+                        {% else %}
+                            <small>No replies</small>
+                        {% endfor %}
+                    </td>
+
+                    <!-- ACTIONS -->
+                    <td>
+                        <form method="POST" action="{{ url_for('views.add_comment', report_id=report.id) }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                            <textarea name="comment">{{ report.admin_comment.comment if report.admin_comment else "" }}</textarea>
+
+                            <select name="status">
+                                <option value="">-- Status --</option>
+                                <option value="Pending" {% if report.status_rel.name == "Pending" %}selected{% endif %}>Pending</option>
+                                <option value="Read" {% if report.status_rel.name == "Read" %}selected{% endif %}>Read</option>
+                                <option value="Resolved" {% if report.status_rel.name == "Resolved" %}selected{% endif %}>Resolved</option>
+                            </select>
+
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </section>
+
+</div>
+</body>
+</html>
