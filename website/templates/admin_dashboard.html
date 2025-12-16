@@ -132,10 +132,12 @@
 
                     <!-- ACTIONS -->
                     <td>
+
+                        <!-- UPDATE COMMENT & STATUS -->
                         <form method="POST" action="{{ url_for('views.add_comment', report_id=report.id) }}">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-                            <textarea name="comment">{{ report.admin_comment.comment if report.admin_comment else "" }}</textarea>
+                            <textarea name="comment" placeholder="Admin comment">{{ report.admin_comment.comment if report.admin_comment else "" }}</textarea>
 
                             <select name="status">
                                 <option value="">-- Status --</option>
@@ -146,6 +148,19 @@
 
                             <button type="submit">Update</button>
                         </form>
+
+        
+                        <form method="POST"
+                            action="{{ url_for('views.delete_report_route', report_id=report.id) }}"
+                            class="admin-delete-form"
+                            onsubmit="return confirm('Delete this report from admin view only?');">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="admin-delete-text">
+                                Delete
+                            </button>
+                        </form>
+
+
                     </td>
                 </tr>
             {% endfor %}

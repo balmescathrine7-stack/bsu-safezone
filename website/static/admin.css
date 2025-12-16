@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -10,20 +11,17 @@ body {
     color: #333;
 }
 
-/* Background Image with Opacity */
+/* Background image overlay */
 body::before {
     content: "";
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('images/background.jpg') no-repeat center center / cover;
-    opacity: 0.15; 
+    inset: 0;
+    background: url('images/background.jpg') no-repeat center / cover;
+    opacity: 0.15;
     z-index: -1;
 }
 
-/* ---------------------- HEADER ---------------------- */
+/* ====================== HEADER ====================== */
 header {
     display: flex;
     justify-content: space-between;
@@ -31,7 +29,7 @@ header {
     background-color: #900;
     color: #fff;
     padding: 15px 30px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
 }
 
 header .logo {
@@ -51,35 +49,31 @@ header .logout a {
     padding: 8px 18px;
     background-color: #b30000;
     border-radius: 6px;
-    transition: 0.3s;
+    transition: background-color 0.3s;
 }
 
 header .logout a:hover {
     background-color: #ff1a1a;
 }
 
-/* ---------------------- CONTAINER ---------------------- */
+/* ====================== LAYOUT ====================== */
 .container {
     padding: 25px 35px;
 }
 
-/* ---------------------- NOTIFICATIONS ---------------------- */
+/* ====================== NOTIFICATIONS ====================== */
 .notifications {
     background-color: #fff;
     padding: 22px;
     border-radius: 12px;
     margin-bottom: 28px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
 }
 
 .notifications h2 {
     margin-bottom: 15px;
     color: #900;
     font-size: 22px;
-}
-
-.notifications .form-group {
-    margin-bottom: 15px;
 }
 
 .notifications textarea,
@@ -92,6 +86,7 @@ header .logout a:hover {
 }
 
 .notifications button {
+    margin-top: 10px;
     padding: 10px 22px;
     background-color: #900;
     color: #fff;
@@ -99,20 +94,20 @@ header .logout a:hover {
     border-radius: 6px;
     cursor: pointer;
     font-size: 15px;
-    transition: 0.3s;
+    transition: background-color 0.3s;
 }
 
 .notifications button:hover {
     background-color: #b30000;
 }
 
-/* ---------------------- SUMMARY ---------------------- */
+/* ====================== SUMMARY ====================== */
 .summary {
     background-color: #fff;
     padding: 18px 20px;
     border-radius: 12px;
     margin-bottom: 28px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
 }
 
 .summary p {
@@ -121,12 +116,12 @@ header .logout a:hover {
     font-weight: bold;
 }
 
-/* ---------------------- REPORTS TABLE ---------------------- */
+/* ====================== REPORTS TABLE ====================== */
 .reports {
     background-color: #fff;
     padding: 22px;
     border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
     overflow-x: auto;
 }
 
@@ -141,11 +136,12 @@ header .logout a:hover {
     border-collapse: collapse;
 }
 
-.reports th, .reports td {
+.reports th,
+.reports td {
     border: 1px solid #ddd;
     padding: 10px;
-    word-wrap: break-word;
     text-align: center;
+    word-wrap: break-word;
     font-size: 15px;
 }
 
@@ -154,7 +150,7 @@ header .logout a:hover {
     color: #fff;
 }
 
-/* Image & video preview */
+/* Media preview */
 .reports td img,
 .reports td video {
     max-width: 100px;
@@ -163,20 +159,40 @@ header .logout a:hover {
     border: 1px solid #bbb;
 }
 
-/* ---------------------- STUDENT REPLY ---------------------- */
+/* ====================== ADMIN DELETE ====================== */
+.admin-delete-form {
+    margin-top: 16px; 
+    text-align: center;
+}
+
+.admin-delete-text {
+    background: none;
+    border: none;
+    padding: 2px;
+    color: #cc0000;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.admin-delete-text:hover {
+    color: #ff1a1a;
+}
+
+/* ====================== STUDENT REPLY ====================== */
 .student-reply {
     background-color: #f4f4f4;
     padding: 6px 8px;
     border-radius: 6px;
     font-size: 14px;
-    color: #333;
 }
 
 .student-reply small {
     display: block;
     margin-top: 4px;
-    color: #555;
     font-size: 12px;
+    color: #555;
 }
 
 .student-reply.unread {
@@ -185,7 +201,7 @@ header .logout a:hover {
     font-weight: bold;
 }
 
-/* ---------------------- ACTION FORMS ---------------------- */
+/* ====================== ACTION FORMS ====================== */
 .reports td form {
     display: flex;
     flex-direction: column;
@@ -193,9 +209,9 @@ header .logout a:hover {
 }
 
 .reports td textarea {
-    resize: vertical;
     min-height: 45px;
     padding: 6px;
+    resize: vertical;
     border: 1px solid #bbb;
     border-radius: 6px;
 }
@@ -213,14 +229,14 @@ header .logout a:hover {
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: background-color 0.3s;
 }
 
 .reports td button:hover {
     background-color: #b30000;
 }
 
-/* ---------------------- RESPONSIVE ---------------------- */
+/* ====================== RESPONSIVE ====================== */
 @media (max-width: 1024px) {
     .container {
         padding: 15px 18px;
@@ -232,13 +248,10 @@ header .logout a:hover {
         text-align: center;
     }
 
-    .reports th, .reports td {
+    .reports th,
+    .reports td {
         font-size: 13px;
         padding: 7px;
-    }
-
-    textarea, select {
-        font-size: 14px;
     }
 }
 
@@ -247,10 +260,6 @@ header .logout a:hover {
     .summary,
     .reports {
         padding: 15px;
-    }
-
-    .reports table {
-        font-size: 12px;
     }
 
     header .logo img {
